@@ -262,6 +262,13 @@ class FatFile {
    */
   bool dirEntry(dir_t* dir);
 
+  /**
+   * \return The index of this file in it's directory.
+   */
+  uint16_t dirIndex() {
+    return m_dirIndex;
+  }
+
   /** Dump file in Hex
    * \param[in] pr Print stream for list.
    * \param[in] pos Start position in file.
@@ -918,7 +925,6 @@ class FatFile {
 #if 0  ////////////////////////////////////////////////////////////////////////////////////////////////////
   uint8_t fileAttr() const {return m_attributes;}
   uint32_t curCluster() const {return m_curCluster;}
-  uint16_t dirIndex() {return m_dirIndex;}
   uint32_t firstCluster() const {return m_firstCluster;}
   uint32_t firstSector() {
     if (m_firstCluster) {

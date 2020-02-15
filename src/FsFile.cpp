@@ -120,6 +120,24 @@ bool FsFile::open(FsFile* dir, const char* path, uint8_t oflag) {
   return false;
 }
 //-----------------------------------------------------------------------------
+bool FsFile::open(FsFile* dir, uint32_t index, uint8_t oflag) {
+  close();
+  if (dir->m_fFile) {
+    m_fFile = new (m_fileMem) FatFile;
+    if (m_fFile->open(dir->m_fFile, index, oflag)) {
+      return true;
+    }
+    m_fFile = nullptr;
+  } else if (dir->m_xFile) {
+    m_xFile = new (m_fileMem) ExFatFile;
+    if (m_xFile->open(dir->m_xFile, index, oflag)) {
+      return true;
+    }
+    m_xFile = nullptr;
+  }
+  return false;
+}
+//-----------------------------------------------------------------------------
 bool FsFile::openNext(FsFile* dir, uint8_t oflag) {
   close();
   if (dir->m_fFile) {

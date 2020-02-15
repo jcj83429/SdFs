@@ -84,6 +84,15 @@ class FsFile {
     return m_fFile ? m_fFile->curPosition() :
            m_xFile ? m_xFile->curPosition() : 0;
   }
+
+  /**
+   * \return The index of this file in its directory.
+   */
+  uint32_t dirIndex() {
+	  return m_fFile ? m_fFile->dirIndex() :
+	         m_xFile ? m_xFile->dirIndex() : 0;
+  }
+
   /** Test for the existence of a file in a directory
    *
    * \param[in] path Path of the file to be tested for.
@@ -272,6 +281,20 @@ class FsFile {
    * the value false is returned for failure.
    */
   bool open(FsFile* dir, const char* path, uint8_t oflag = O_READ);
+  /** Open a file by index.
+   *
+   * \param[in] dir An open file instance for the directory.
+   *
+   * \param[in] index The \a index of the directory entry for the file to be
+   * opened. Use the value returned by dirIndex()
+   *
+   * \param[in] oflag bitwise-inclusive OR of open mode flags.
+   *                  See FsFile::open(FsFile*, const char*, uint8_t).
+   *
+   * See open() by path for definition of flags.
+   * \return true for success or false for failure.
+   */
+  bool open(FsFile* dir, uint32_t index, uint8_t oflag = O_READ);
   /** Open a file or directory by name.
    *
    * \param[in] vol Volume where the file is located.

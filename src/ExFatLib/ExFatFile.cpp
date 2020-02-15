@@ -174,6 +174,20 @@ bool ExFatFile::open(ExFatFile* dirFile, const ExChar_t* path, uint8_t oflag) {
 fail:
   return false;
 }
+
+bool ExFatFile::open(ExFatFile* dirFile, uint32_t index, uint8_t oflag) {
+  if (isOpen() || !dirFile->isDir() || (dirFile->curPosition() & 0X1F) ||
+	  (index & 0X1F)) {
+    DBG_FAIL_MACRO;
+    goto fail;
+  }
+  dirFile->seekSet(index);
+  return openRootFile(dirFile, nullptr, 0, oflag);
+
+ fail:
+  return false;
+}
+
 //-----------------------------------------------------------------------------
 bool ExFatFile::openRootFile(ExFatFile* dir, const ExChar_t* name,
                           uint8_t nameLength, uint8_t oflag) {

@@ -136,6 +136,13 @@ class ExFatFile {
   bool close();
   /** \return The current position for a file or directory. */
   uint64_t curPosition() const {return m_curPosition;}
+  
+  /**
+   * \return The index of this file in it's directory.
+   */
+  uint32_t dirIndex() {
+	  return m_dirPos.position;
+  }
 
   /** \return Total data length for file. */
   uint64_t dataLength() {return m_dataLength;}
@@ -308,6 +315,20 @@ class ExFatFile {
    * the value false is returned for failure.
    */
   bool open(ExFatFile* dirFile, const ExChar_t* path, uint8_t oflag);
+  /** Open a file by index.
+   *
+   * \param[in] dirFile An open ExFatFile instance for the directory.
+   *
+   * \param[in] index The \a index of the directory entry for the file to be
+   * opened. The \a index must ba a multiple of 32.
+   *
+   * \param[in] oflag bitwise-inclusive OR of open mode flags.
+   *                  See FatFile::open(ExFatFile*, const ExChar_t*, uint8_t).
+   *
+   * See open() by path for definition of flags.
+   * \return true for success or false for failure.
+   */
+  bool open(ExFatFile* dirFile, uint32_t index, uint8_t oflag);
   /** Open a file in the volume root directory.
    *
    * \param[in] vol Volume where the file is located.
