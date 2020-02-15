@@ -312,6 +312,11 @@ class FatFile {
    */
   int fgets(char* str, int num, char* delim = nullptr);
 
+  /** \return The first cluster number for a file or directory. */
+  uint32_t firstCluster() const {
+    return m_firstCluster;
+  }
+
   /** \return The total number of bytes in a file. */
   uint32_t fileSize() const {
     return m_fileSize;
@@ -925,7 +930,6 @@ class FatFile {
 #if 0  ////////////////////////////////////////////////////////////////////////////////////////////////////
   uint8_t fileAttr() const {return m_attributes;}
   uint32_t curCluster() const {return m_curCluster;}
-  uint32_t firstCluster() const {return m_firstCluster;}
   uint32_t firstSector() {
     if (m_firstCluster) {
     return m_vol->clusterStartSector(m_firstCluster);

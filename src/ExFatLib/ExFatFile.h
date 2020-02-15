@@ -165,6 +165,10 @@ class ExFatFile {
    * \param[out] pos struct to receive position
    */
   void fgetpos(fspos_t* pos);
+  /** \return The first cluster number for a file or directory. */
+  uint32_t firstCluster() const {
+    return m_firstCluster;
+  }
  /**
    * Get a string from a file.
    *

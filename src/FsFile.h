@@ -132,6 +132,11 @@ class FsFile {
     return m_fFile ? m_fFile->fgets(str, num, delim) :
            m_xFile ? m_xFile->fgets(str, num, delim) : -1;
   }
+  /** \return The first cluster number for a file or directory. */
+  uint32_t firstCluster() const {
+    return m_fFile ? m_fFile->firstCluster() :
+           m_xFile ? m_xFile->firstCluster() : 0;
+  }
   /** \return The total number of bytes in a file. */
   uint64_t fileSize() {
     return m_fFile ? m_fFile->fileSize() :
